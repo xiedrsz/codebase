@@ -3,7 +3,7 @@
 <head>
     
     <meta charset="utf-8">
-    <title>lib.js - Docdash</title>
+    <title>wepp.js - Docdash</title>
     
     <meta name="description" content="A clean, responsive documentation template theme for JSDoc 3." />
     
@@ -45,7 +45,7 @@
 
 <div id="main">
     
-    <h1 class="page-title">lib.js</h1>
+    <h1 class="page-title">wepp.js</h1>
     
 
     
@@ -56,44 +56,108 @@
     <section>
         <article>
             <pre class="prettyprint source linenums"><code>/**
- * @module libs
- * @desc 第三方库
+ * @module wepp
+ * @desc wepy框架小程序API库，来源于招聘项目
  * @author xiedrsz
  * @since 2018.09.04
  */
-import moment from 'moment'
-
-const Today = moment()
+import wepy from 'wepy'
 
 /**
- * @method sleep 等待
- * @desc 等待
- * @param {number} s - 等待时间，毫秒.
+ * @method chooseImageFromAlbum
+ * @desc 从相册中选择图片
  * @return {Promise} Promise 对象.
  */
-export const sleep = s => {
-  return new Promise((resolve, reject) => {
-    let timer = setTimeout(() => {
-      clearTimeout(timer)
-      resolve('promise resolved')
-    }, s)
+export const chooseImageFromAlbum = () => {
+  return wepy.chooseImage({
+    count: 1,
+    sizeType: ['compressed'],
+    sourceType: ['album']
   })
 }
 
 /**
- * @method calcAge 计算年龄
- * @desc 根据身份证号计算年龄
- * @param {string} identityNo - 证件号码.
- * @return {number} 年龄.
+ * @method chooseImageByCapture
+ * @desc 拍照
+ * @return {Promise} Promise 对象.
  */
-export const calcAge = identityNo => {
-  if (!identityNo) {
-    return
-  }
-  let ages = identityNo.match(/^[1-9]\d{5}(\d{4})(\d{2})(\d{2})(\d{3}[0-9Xx]|\*{4})$/) || []
-  let birth = moment(`${ages[1]}-${ages[2]}-${ages[3]}`, 'YYYY-MM-DD')
-  ages = Today.diff(birth, 'years', true)
-  return ages
+export const chooseImageByCapture = () => {
+  return wepy.chooseImage({
+    count: 1,
+    sizeType: ['compressed'],
+    sourceType: ['camera']
+  })
+}
+
+/**
+ * @method fileTobs64 文件转base64
+ * @desc 文件转base64，目前只针对头像
+ * @return {Promise} Promise 对象.
+ */
+export const fileTobs64 = () => {
+  let userPath = wx.env.USER_DATA_PATH
+  let path = `${userPath}/pa_picker_head.jpg`
+  let manager = wx.getFileSystemManager()
+  return new Promise((resolve, reject) => {
+    manager.stat({
+      path,
+      success () {
+        let bs64 = manager.readFileSync(path, 'base64')
+        bs64 = `data:image/jpeg;base64,${bs64}`
+        resolve(bs64)
+      },
+      fail (err) {
+        reject(err)
+      }
+    })
+  })
+}
+
+/**
+ * @method bs64Tofile base64转文件
+ * @desc base64转文件
+ * @param {string} bs64 - 图片的base64编码
+ * @param {string} path - 图片保存路径
+ */
+export const bs64Tofile = (bs64, path) => {
+  let userPath = wx.env.USER_DATA_PATH
+  let manager = wx.getFileSystemManager()
+  path = path ? `${userPath}/${path}` : `${userPath}/pa_picker_head.jpg`
+  bs64 = bs64.replace(/^data.*,/, '')
+  manager.writeFileSync(path, bs64, 'base64')
+}
+
+/**
+ * @method saveFile 保存临时文件
+ * @desc 保存临时文件，目前只针对头像
+ * @param {string} tempFilePath - 临时文件路径
+ */
+export const saveFile = tempFilePath => {
+  let userPath = wx.env.USER_DATA_PATH
+  let filePath = `${userPath}/pa_picker_head.jpg`
+  let manager = wx.getFileSystemManager()
+  manager.saveFile({
+    tempFilePath,
+    filePath,
+    success (res) {
+      console.log(res)
+    },
+    fail (err) {
+      console.log(err)
+    }
+  })
+}
+
+/**
+ * @method saveImageToPhotosAlbum 保存到相册
+ * @desc saveImageToPhotosAlbum
+ * @param {string} filePath - 文件路径
+ */
+export const saveImageToPhotosAlbum = filePath => {
+  let userPath = wx.env.USER_DATA_PATH
+  return wepy.saveImageToPhotosAlbum({
+    filePath: `${userPath}/${filePath}`
+  })
 }
 </code></pre>
         </article>
