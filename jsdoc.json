@@ -16,7 +16,9 @@
     "encoding": "utf8",
     "destination": "docs/",
     "recurse": true,
-    "verbose": true
+    "verbose": true,
+    "tutorials": "tutorials",
+    "readme": "README.md"
   },
   "markdown": {
     "parser": "gfm",

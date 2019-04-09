@@ -38,3 +38,52 @@ export const calcAge = identityNo => {
   ages = Today.diff(birth, 'years', true)
   return ages
 }
+
+/**
+ * @method formatDate 格式化时间
+ * @desc 格式化时间
+ * @param {Date} date - 时间
+ * @param {string} fmt - 格式字符串
+ * @return {string} 时间格式化字符串
+ */
+export const formatDate = (date, fmt) => {
+  if (/(y+)/.test(fmt)) {
+    fmt = fmt.replace(RegExp.$1, (date.getFullYear() + '').substr(4 - RegExp.$1.length))
+  }
+  let o = {
+    'M+': date.getMonth() + 1,
+    'd+': date.getDate(),
+    'h+': date.getHours(),
+    'm+': date.getMinutes(),
+    's+': date.getSeconds()
+  }
+  for (let k in o) {
+    if (new RegExp(`(${k})`).test(fmt)) {
+      let str = o[k] + ''
+      fmt = fmt.replace(RegExp.$1, (RegExp.$1.length === 1) ? str : padLeftZero(str))
+    }
+  }
+  return fmt
+}
+
+/**
+ * @method fmoney 金额格式化
+ * @desc 金额格式化
+ * @param {string} str 金额
+ * @param {number} [num = 0] 保留小数点数
+ */
+export const fmoney = (str, num) => {
+  let n = num > 0 && num <= 20 ? num : 0
+  let s = parseFloat((str + '').replace(/[^\d.-]/g, '')).toFixed(n) + ''
+  let l = s.split('.')[0].split('').reverse()
+  let r = s.split('.')[1]
+  let t = ''
+  let i = 0
+  let len = l.length
+  let res = ''
+  for (; i < len; i++) {
+    t += l[i] + ((i + 1) % 3 === 0 && (i + 1) !== len ? ',' : '')
+  }
+  res = t.split('').reverse().join('')
+  return r ? (res + '.' + r) : res
+}
