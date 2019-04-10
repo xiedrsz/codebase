@@ -5,6 +5,7 @@
  * @since 2018.09.04
  */
 import Vue from 'vue'
+import moment from 'moment'
 
 /**
  * @method suffix 前后缀
@@ -53,4 +54,70 @@ Vue.filter('signature', str => {
     str = -str
   }
   return `${signature} ${str}`
+})
+
+/**
+ * @method divide 分隔数字
+ * @desc 分隔数字
+ * @param {number} [num = 4] 字符数目
+ * @return {string}
+ */
+Vue.filter('divide', (value, num = 4) => {
+  if (value === 'undefined' || value === '') {
+    return ''
+  }
+  let reg = `\\d{${num}}`
+  let less = ''
+  let front
+  value += ''
+  value = value.replace(/\s+/g, '')
+  reg = new RegExp(reg, 'g')
+  front = value.match(reg) || []
+  less = front.join('')
+  less = value.replace(less, '')
+  return `${front.join(' ')} ${less}`
+})
+
+/**
+ * @method dateTime 时间戳转日期
+ * @desc 时间戳转日期
+ * @param {string} [format = 'YYYY-MM-DD'] 格式
+ * @return {string}
+ */
+Vue.filter('dateTime', (value, format = 'YYYY-MM-DD') => {
+  if (value === undefined || value === '') {
+    return ''
+  }
+  return moment(value).format(format)
+})
+
+/**
+ * @method maps 码表
+ * @desc 码表
+ * @param {string} [append = ''] 附加字段
+ * @return {string}
+ * @example
+ * // 需要配置码表codeTB，如
+ * {
+ *    "__comments": "渠道类型",
+ *    "DirectSellingBusiness":	"直销业务"
+ * }  
+ */
+Vue.filter('maps', (value, append = '') => {
+  return codeTB[`${append}${value}`] || value
+})
+
+/**
+ * @method percentage 百分化
+ * @desc 百分化
+ * @param {number} [num = 0] 小数位数
+ * @return {string}
+ */
+Vue.filter('percentage', (value, num = 0) => {
+  if (/^\d+(\.\d+)?/.test(value)) {
+    value *= 100
+    value = value.toFixed(num)
+    return `${value}%`
+  }
+  return value
 })

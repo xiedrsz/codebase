@@ -87,3 +87,22 @@ export const fmoney = (str, num) => {
   res = t.split('').reverse().join('')
   return r ? (res + '.' + r) : res
 }
+
+/**
+ * @method getDistance 计算两点距离
+ * @desc 根据经纬度计算两点距离
+ * @param {number} lat1 纬度1
+ * @param {number} lng1 经度1
+ * @param {number} lat2 纬度2
+ * @param {number} lng2 经度2
+ * @return {number} 米
+ */
+export const getDistance = (lat1 = 0, lng1 = 0, lat2 = 0, lng2 = 0) => {
+  let rad1 = lat1 * Math.PI / 180.0
+  let rad2 = lat2 * Math.PI / 180.0
+  let a = rad1 - rad2
+  let b = lng1 * Math.PI / 180.0 - lng2 * Math.PI / 180.0
+  let r = 6378137
+  let distance = r * 2 * Math.asin(Math.sqrt(Math.pow(Math.sin(a / 2), 2) + Math.cos(rad1) * Math.cos(rad2) * Math.pow(Math.sin(b / 2), 2)))
+  return distance
+}
