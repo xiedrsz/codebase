@@ -106,3 +106,25 @@ export const getDistance = (lat1 = 0, lng1 = 0, lat2 = 0, lng2 = 0) => {
   let distance = r * 2 * Math.asin(Math.sqrt(Math.pow(Math.sin(a / 2), 2) + Math.cos(rad1) * Math.cos(rad2) * Math.pow(Math.sin(b / 2), 2)))
   return distance
 }
+
+/**
+ * @method timeDiff 计算时差
+ * @desc 计算时差，距离现在
+ * @param {string | number} end 结束时间
+ * @return {object} days, hours, minutes, seconds
+ */
+export const timeDiff = end => {
+  let now = moment()
+  let seconds, days, hours, minutes
+  end = moment(end)
+  seconds = end.diff(now, 'seconds')
+  days = seconds / 86400 | 0
+  seconds %= 86400
+  hours = seconds / 3600 | 0
+  seconds %= 3600
+  minutes = seconds / 60 | 0
+  seconds %= 60
+  return {
+    days, hours, minutes, seconds
+  }
+}
