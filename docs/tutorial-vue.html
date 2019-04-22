@@ -3,7 +3,7 @@
 <head>
     
     <meta charset="utf-8">
-    <title>Global - Docdash</title>
+    <title>Tutorial: vue 教程 - Docdash</title>
     
     <meta name="description" content="A clean, responsive documentation template theme for JSDoc 3." />
     
@@ -45,240 +45,60 @@
 
 <div id="main">
     
-    <h1 class="page-title">Global</h1>
+    <h1 class="page-title">Tutorial: vue 教程</h1>
     
 
-    
-
-
-
-
-<section>
+    <section>
 
 <header>
     
-        <h2>
-        
-        </h2>
-        
-    
+
+    <h2>vue 教程</h2>
 </header>
 
 <article>
-    
-        <div class="container-overview">
-        
-            
-
-<dl class="details">
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-</dl>
-
-
-
-
-            
-
-            
-        
-        </div>
-    
-
-    
-
-    
-
-    
-    
-    
-
-     
-
-    
-
-    
-        <h3 class="subsection-title">Members</h3>
-
-        
-            
-<h4 class="name" id="RegEx"><span class="type-signature">(constant) </span>RegEx<span class="type-signature"> :RegExp</span></h4>
-
-
-
-
-
-<dl class="details">
-
-    
-    <dt class="tag-source">Source:</dt>
-    <dd class="tag-source"><ul class="dummy"><li>
-        <a href="regEx.js.html">regEx.js</a>, <a href="regEx.js.html#line7">line 7</a>
-    </li></ul></dd>
-    
-
-    
-
-    
-    <dt class="tag-since">Since:</dt>
-    <dd class="tag-since"><ul class="dummy"><li>2018.09.04</li></ul></dd>
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-    <dt class="tag-author">Author:</dt>
-    <dd class="tag-author">
-        <ul>
-            <li>xiedrsz</li>
-        </ul>
-    </dd>
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-</dl>
-
-
-
-    <h5 class="subsection-title">Properties:</h5>
-
-    
-
-<table class="props">
-    <thead>
-    <tr>
-        
-        <th>Name</th>
-        
-
-        <th>Type</th>
-
-        
-
-        
-
-        <th class="last">Description</th>
-    </tr>
-    </thead>
-
-    <tbody>
-    
-
-        <tr>
-            
-                <td class="name"><code>mobile</code></td>
-            
-
-            <td class="type">
-            
-                
-<span class="param-type">RegExp</span>
-
-
-            
-            </td>
-
-            
-
-            
-
-            <td class="description last"><p>手机号</p></td>
-        </tr>
-
-    
-    </tbody>
-</table>
-
-
-
-
-
-
-<div class="description">
-    <p>正则表达式</p>
-</div>
-
-
-
-    <h5>Type:</h5>
-    <ul>
-        <li>
-            
-<span class="param-type">RegExp</span>
-
-
-        </li>
-    </ul>
-
-
-
-
-
-
-        
-    
-
-    
-
-    
-
-    
+    <hr>
+<ul>
+<li><h4 id="-vuex-">解决 vuex 因为页面跳出导致状态被清除</h4>
+</li>
+</ul>
+<blockquote>
+<p>原理：利用代理监听状态的改动，当状态发生变化时，将变化后的状态保存在sessionStorage中，页面跳回来时优先从sessionStorage中初始化，具体实现如下。</p>
+</blockquote>
+<pre class="prettyprint source"><code>// [1] 在store/index.js中设置事件代理
+import Vue from 'vue'
+import Vuex from 'vuex'
+import actions from './actions'
+import getters from './getters'
+import state from './state'
+import mutations from './mutations'
+
+Vue.use(Vuex)
+
+let mstate = new Proxy(state, {
+  set (target, key, value, receiver) {
+    let oldState = sessionStorage.getItem('mstate') || '{}'
+    oldState = JSON.parse(oldState)
+    oldState[key] = value
+    sessionStorage.setItem('mstate', JSON.stringify(oldState))
+    return Reflect.set(target, key, value, receiver)
+  }
+})
+
+export default new Vuex.Store({
+  actions,
+  getters,
+  state: mstate,
+  mutations
+})
+// [2] 在store/state.js中优先从sessionStorage初始化
+let oldState = sessionStorage.getItem('mstate')
+let state = oldState ? JSON.parse(oldState) : {}
+
+export default state</code></pre>
 </article>
 
 </section>
-
-
-
 
     
     

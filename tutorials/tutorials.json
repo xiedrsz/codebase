@@ -1,5 +1,8 @@
 {
   "webpack.prod.conf": {
     "title": "webpack 生产配置"
+  },
+  "vue": {
+    "title": "vue 教程"
   }
 }

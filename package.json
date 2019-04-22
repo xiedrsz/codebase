@@ -4,7 +4,7 @@
   "description": "个人代码库",
   "main": "index.js",
   "scripts": {
-    "doc": "node_modules/.bin/jsdoc -c jsdoc.json",
+    "doc": "node_modules/.bin/watch \"node_modules/.bin/jsdoc -c jsdoc.json\" src tutorials",
     "test": "echo \"Error: no test specified\" && exit 1"
   },
   "repository": {
@@ -24,6 +24,7 @@
     "jsdoc": "^3.5.5"
   },
   "devDependencies": {
-    "docdash": "^1.1.0"
+    "docdash": "^1.1.0",
+    "watch": "^1.0.2"
   }
 }
