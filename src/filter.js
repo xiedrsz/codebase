@@ -121,3 +121,20 @@ Vue.filter('percentage', (value, num = 0) => {
   }
   return value
 })
+
+/**
+ * @method W 万
+ * @desc 数字转万
+ * @param {number} [num = 1] 小数位数
+ * @return {string}
+ */
+Vue.filter('W', (value, num = 1) => {
+  let temp = /\d+(.\d+)?/.exec(value) || []
+  let wan
+  temp = temp[0] || ''
+  if (+temp > 10000) {
+    wan = (temp / 10000).toFixed(num)
+    value = (value + '').replace(temp, `${wan}万`)
+  }
+  return value
+})
