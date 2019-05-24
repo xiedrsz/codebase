@@ -138,3 +138,19 @@ Vue.filter('W', (value, num = 1) => {
   }
   return value
 })
+
+/**
+ * @method thousands 千分位
+ * @desc 千分位
+ * @param {number} [num = 1] 小数位数
+ * @return {string}
+ * @todo 未验证
+ */
+Vue.filter('thousands', (value, num = 0) => {
+  if (!value || isNaN(value)) {
+    return value
+  }
+  let res = num ? (+value).toFixed(num) : (value + '')
+  let reg = num ? /(\d)(?=(?:(\d{3})+\.\d+$))/g : /(\d)(?=(?:\d{3})+$)/g
+  return res.replace(reg, '$1,')
+})
