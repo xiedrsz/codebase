@@ -1,6 +1,6 @@
 ---
 * 打包后压缩成.zip
-```
+```js
 // webpack.prod.conf.js
 // [1] 引入zip-webpack-plugin
 const ZipPlugin = require('zip-webpack-plugin')
@@ -12,7 +12,7 @@ new ZipPlugin({
 ```
 
 * 根据环境不同引入不同模块
-```
+```js
 // [1] 为不同环境创建自个模块，如
 // a. /config/profile_dev.js
 // b. /config/profile_prod.js
@@ -20,7 +20,7 @@ new ZipPlugin({
 import profile from './profile_TARGET'
 // [3] 在webpack对应配置文件中将模块替换
 // 在plugins数组中追加插件
-new webpack.NormalModuleReplacementPlugin(/(.*)_TARGET(\.*)/, function(resource) {
+new webpack.NormalModuleReplacementPlugin(/(.*)_TARGET(\.*)/, function (resource) {
     resource.request = resource.request.replace(/_TARGET/, '_dev');
 })
 ```

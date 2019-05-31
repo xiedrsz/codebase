@@ -4,5 +4,8 @@
   },
   "vue": {
     "title": "vue 教程"
+  },
+  "wechat": {
+    "title": "微信开发教程"
   }
 }
