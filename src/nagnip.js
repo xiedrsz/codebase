@@ -27,3 +27,12 @@ export const shareImg = imgUrl => {
     window.ppAzch.CallNative(JSON.stringify(params))
   })
 }
+
+/**
+ * @method popWebview 
+ * @desc 关闭webView，并返回上一页
+ */
+export const popWebview = () => {
+  // ppAzch (反)
+  window.ppAzch.CallNative('{"MethodName":"popSelfVC"}')
+}

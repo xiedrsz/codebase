@@ -8,6 +8,32 @@ import moment from 'moment'
 
 const Today = moment()
 
+const charMapForVin = {
+  'A': 1,
+  'B': 2,
+  'C': 3,
+  'D': 4,
+  'E': 5,
+  'F': 6,
+  'G': 7,
+  'H': 8,
+  'J': 1,
+  'K': 2,
+  'L': 3,
+  'M': 4,
+  'N': 5,
+  'P': 7,
+  'R': 9,
+  'S': 2,
+  'T': 3,
+  'U': 4,
+  'V': 5,
+  'W': 6,
+  'X': 7,
+  'Y': 8,
+  'Z': 9
+}
+
 /**
  * @method sleep 等待
  * @desc 等待
@@ -126,5 +152,40 @@ export const timeDiff = end => {
   seconds %= 60
   return {
     days, hours, minutes, seconds
+  }
+}
+
+/**
+ * @method checkVin 车架号校验
+ * @desc 车架号算法校验
+ * @param {string} [vin = ''] 车架号
+ * @return {boolean} [true | false]
+ */
+export const checkVin = (vin = '') => {
+  if (vin.length > 0 && vin.length !== 17) {
+    return false
+  }
+  let sum = 0
+  let check
+  let i
+  vin = vin.toUpperCase().split('').map((temp, i) => {
+    if (i === 8) {
+      return temp
+    } else {
+      return charMapForVin[temp] || +temp
+    }
+  })
+  for (i = 0; i < 7; i++) {
+    sum += vin[i] * (8 - i)
+  }
+  sum += vin[7] * 10
+  for (i = 9; i < 17; i++) {
+    sum += vin[i] * (18 - i)
+  }
+  check = sum % 11 + ''
+  if (check === '10') {
+    return vin[8] === 'X'
+  } else {
+    return vin[8] === check
   }
 }
