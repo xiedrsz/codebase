@@ -3,7 +3,7 @@
 <head>
     
     <meta charset="utf-8">
-    <title>Tutorial: webpack 生产配置 - Docdash</title>
+    <title>camel.js - Docdash</title>
     
     <meta name="description" content="A clean, responsive documentation template theme for JSDoc 3." />
     
@@ -45,44 +45,148 @@
 
 <div id="main">
     
-    <h1 class="page-title">Tutorial: webpack 生产配置</h1>
+    <h1 class="page-title">camel.js</h1>
     
 
+    
+
+
+
+    
     <section>
+        <article>
+            <pre class="prettyprint source linenums"><code>/**
+ * @module camel
+ * @desc 下划线命名法和驼峰式命名法相互转化，引用，详见{@link https://github.com/wangning0/Underscore2camelCase GitHub}.
+ * @author wangning
+ * @tutorial camel
+ */
 
-<header>
+;(function(global) {
+
+    var toString = Object.prototype.toString;
+    var _isFunction = function(obj) {
+        return typeof(obj) === 'function';
+    };
+    var _isObject = function(obj) {
+        return obj === Object(obj);
+    };
+    var _isArray = function(obj) {
+        return toString.call(obj) === '[object Array]';
+    };
+    var _isDate = function(obj) {
+        return toString.call(obj) === '[object Date]';
+    };
+    var _isRegExp = function(obj) {
+        return toString.call(obj) === '[object RegExp]';
+    };
+    var _isBoolean = function(obj) {
+        return toString.call(obj) === '[object Boolean]';
+    };
+    var _isNumberical = function(obj) {
+        obj = obj - 0;
+        return obj === obj;
+    };
+
+    var camelize = function(string) {
+        if(_isNumberical(string)) {
+            return string;
+        }
+        string = string.replace(/[\-_\s]+(.)?/g, function(match, chr) {
+            return chr ? chr.toUpperCase() : '';
+        });
+        return string.substr(0, 1).toLowerCase() + string.substr(1);
+    }
+
+    var pascalize = function(string) {
+        var camelized = camelize(string);
+        return camelized.substr(0, 1).toUpperCase() + camelized.substr(1);
+    }
     
+    var seperateWords = function(string, options) {
+        options = options || {};
+        var separator = options.separator || '_';
+        var split = options.split || /(?=[A-Z])/;
 
-    <h2>webpack 生产配置</h2>
-</header>
+        return string.split(split).join(separator);
+    }
 
-<article>
-    <hr>
-<ul>
-<li><p>打包后压缩成.zip</p>
-<pre class="prettyprint source lang-js"><code>// webpack.prod.conf.js
-// [1] 引入zip-webpack-plugin
-const ZipPlugin = require('zip-webpack-plugin')
-// [2] 在plugins数组中追加插件
-new ZipPlugin({
-  path: path.resolve(__dirname, '../dist'),
-  filename: 'dist.zip'
-})</code></pre></li>
-<li><p>根据环境不同引入不同模块</p>
-<pre class="prettyprint source lang-js"><code>// [1] 为不同环境创建自个模块，如
-// a. /config/profile_dev.js
-// b. /config/profile_prod.js
-// [2] 在使用的地方导入模块，使用一个标志位（如TARGET）表示环境
-import profile from './profile_TARGET'
-// [3] 在webpack对应配置文件中将模块替换
-// 在plugins数组中追加插件
-new webpack.NormalModuleReplacementPlugin(/(.*)_TARGET(\.*)/, function (resource) {
-  resource.request = resource.request.replace(/_TARGET/, '_dev');
-})</code></pre></li>
-</ul>
-</article>
+    var decamelize = function(string, options) {
+        return seperateWords(string, options).toLowerCase();
+    }
+    
+    var _processor = function(convert, options) {
+        var callback = options &amp;&amp; 'process' in options ? options.process : options;
 
-</section>
+        if(typeof(callback) !== 'function') {
+        return convert;
+        }
+
+        return function(string, options) {
+        return callback(string, convert, options);
+        }
+    };
+    
+    var _processKeys = function(convert, obj, options) {
+        if(!_isObject(obj) || _isDate(obj) || _isRegExp(obj) || _isBoolean(obj) || _isFunction(obj)) {
+        return obj;
+        }
+
+        var output,
+            i = 0,
+            l = 0;
+
+        if(_isArray(obj)) {
+        output = [];
+        for(l=obj.length; i&lt;l; i++) {
+            output.push(_processKeys(convert, obj[i], options));
+        }
+        }
+        else {
+        output = {};
+        for(var key in obj) {
+            if(obj.hasOwnProperty(key)) {
+            output[convert(key, options)] = _processKeys(convert, obj[key], options);
+            }
+        }
+        }
+        return output;
+    };
+    
+    var underscore2camelCase = {
+        camelize: camelize,
+        decamelize: decamelize,
+        pascalize: pascalize,
+        depascalize: decamelize,
+        camelizeKeys: function(object, options) {
+        return _processKeys(_processor(camelize, options), object);
+        },
+        decamelizeKeys: function(object, options) {
+        return _processKeys(_processor(decamelize, options), object, options);
+        },
+        pascalizeKeys: function(object, options) {
+        return _processKeys(_processor(pascalize, options), object);
+        },
+        depascalizeKeys: function () {
+        return this.decamelizeKeys.apply(this, arguments);
+        }
+    };
+
+    if(typeof define === 'function' &amp;&amp; define.amd) {
+        define(underscore2camelCase);
+    } else if(typeof module !== 'undefined' &amp;&amp; module.exports) {
+        module.exports = underscore2camelCase;
+    } else {
+        global.underscore2camelCase = underscore2camelCase;
+    }
+
+})(this);
+</code></pre>
+        </article>
+    </section>
+
+
+
 
     
     

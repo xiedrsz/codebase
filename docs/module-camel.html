@@ -3,7 +3,7 @@
 <head>
     
     <meta charset="utf-8">
-    <title>Tutorial: webpack 生产配置 - Docdash</title>
+    <title>camel - Docdash</title>
     
     <meta name="description" content="A clean, responsive documentation template theme for JSDoc 3." />
     
@@ -45,44 +45,153 @@
 
 <div id="main">
     
-    <h1 class="page-title">Tutorial: webpack 生产配置</h1>
+    <h1 class="page-title">camel</h1>
     
 
-    <section>
+    
+
+
+
+
+<section>
 
 <header>
     
-
-    <h2>webpack 生产配置</h2>
+        
+            
+        
+    
 </header>
 
 <article>
-    <hr>
-<ul>
-<li><p>打包后压缩成.zip</p>
-<pre class="prettyprint source lang-js"><code>// webpack.prod.conf.js
-// [1] 引入zip-webpack-plugin
-const ZipPlugin = require('zip-webpack-plugin')
-// [2] 在plugins数组中追加插件
-new ZipPlugin({
-  path: path.resolve(__dirname, '../dist'),
-  filename: 'dist.zip'
-})</code></pre></li>
-<li><p>根据环境不同引入不同模块</p>
-<pre class="prettyprint source lang-js"><code>// [1] 为不同环境创建自个模块，如
-// a. /config/profile_dev.js
-// b. /config/profile_prod.js
-// [2] 在使用的地方导入模块，使用一个标志位（如TARGET）表示环境
-import profile from './profile_TARGET'
-// [3] 在webpack对应配置文件中将模块替换
-// 在plugins数组中追加插件
-new webpack.NormalModuleReplacementPlugin(/(.*)_TARGET(\.*)/, function (resource) {
-  resource.request = resource.request.replace(/_TARGET/, '_dev');
-})</code></pre></li>
-</ul>
+    
+        <div class="container-overview">
+        
+            
+                <div class="description"><p>下划线命名法和驼峰式命名法相互转化，引用，详见<a href="https://github.com/wangning0/Underscore2camelCase">GitHub</a>.</p></div>
+            
+
+            
+                
+
+
+
+
+<dl class="details">
+
+    
+    <dt class="tag-source">Source:</dt>
+    <dd class="tag-source"><ul class="dummy"><li>
+        <a href="camel.js.html">camel.js</a>, <a href="camel.js.html#line1">line 1</a>
+    </li></ul></dd>
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+    <dt class="tag-author">Author:</dt>
+    <dd class="tag-author">
+        <ul>
+            <li>wangning</li>
+        </ul>
+    </dd>
+    
+
+    
+
+    
+
+    
+
+    
+    <dt class="tag-tutorial">Tutorials:</dt>
+    <dd class="tag-tutorial">
+        <ul>
+            <li><a href="tutorial-camel.html">camel模块使用教程</a></li>
+        </ul>
+    </dd>
+    
+
+    
+
+    
+</dl>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+            
+        
+        </div>
+    
+
+    
+
+    
+
+    
+    
+    
+
+     
+
+    
+
+    
+
+    
+
+    
+
+    
 </article>
 
 </section>
+
+
+
 
     
     
