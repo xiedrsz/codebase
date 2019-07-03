@@ -33,24 +33,19 @@ export const chooseImageByCapture = () => {
 }
 
 /**
- * @method fileTobs64 文件转base64
- * @desc 文件转base64，目前只针对头像
+ * @method imgTobs64 图片转base64
+ * @desc 图片转base64
+ * @param {string} filePath 图片路径（包括临时路径）.
  * @return {Promise} Promise 对象.
  */
-export const fileTobs64 = () => {
-  let userPath = wx.env.USER_DATA_PATH
-  let path = `${userPath}/pa_picker_head.jpg`
-  let manager = wx.getFileSystemManager()
-  return new Promise((resolve, reject) => {
-    manager.stat({
-      path,
-      success () {
-        let bs64 = manager.readFileSync(path, 'base64')
-        bs64 = `data:image/jpeg;base64,${bs64}`
-        resolve(bs64)
-      },
-      fail (err) {
-        reject(err)
+export const imgTobs64 = filePath => {
+  let FSM = wx.getFileSystemManager()
+  return new Promise(resolve => {
+    FSM.readFile({
+      filePath,
+      encoding: 'base64',
+      complete (res) {
+        resolve(`data:image/jpg;base64,${res.data}`)
       }
     })
   })
