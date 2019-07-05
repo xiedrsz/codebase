@@ -29,7 +29,7 @@ export const shareImg = imgUrl => {
 }
 
 /**
- * @method popWebview 
+ * @method popWebview
  * @desc 关闭webView，并返回上一页
  */
 export const popWebview = () => {

@@ -29,14 +29,14 @@ Vue.filter('suffix', (value, label, isFront) => {
  */
 Vue.filter('fmoney', (str, num) => {
   let n = num > 0 && num <= 20 ? num : 2
-  let s = parseFloat((str + '').replace(/[^\d\.-]/g, '')).toFixed(n) + ''
+  let s = parseFloat((str + '').replace(/[^\d.-]/g, '')).toFixed(n) + ''
   let l = s.split('.')[0].split('').reverse()
   let r = s.split('.')[1]
   let t = ''
   let i = 0
   let len = l.length
   for (; i < len; i++) {
-    t += l[i] + ((i + 1) % 3 == 0 && (i + 1) != len ? ',' : '')
+    t += l[i] + ((i + 1) % 3 === 0 && (i + 1) !== len ? ',' : '')
   }
   return t.split('').reverse().join('') + '.' + r
 })
@@ -101,9 +101,10 @@ Vue.filter('dateTime', (value, format = 'YYYY-MM-DD') => {
  * {
  *    "__comments": "渠道类型",
  *    "DirectSellingBusiness":	"直销业务"
- * }  
+ * }
  */
 Vue.filter('maps', (value, append = '') => {
+  // eslint-disable-next-line no-undef
   return codeTB[`${append}${value}`] || value
 })
 

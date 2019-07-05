@@ -21,8 +21,8 @@
 //   "ROOT": "/software/workspace/jiulong-web/apache-tomcat-8.5.27/webapps/ROOT/"
 // }
 
-"use strict"
-var ssh2 = require("ssh2");
+'use strict'
+var ssh2 = require('ssh2');
 var Client = ssh2.Client;
 var config = require('../.public.js')
 var ROOT = config.ROOT
@@ -34,17 +34,17 @@ var ROOT = config.ROOT
  * @param {function(client)} then - 回调函数
  */
 function Connect (server, then) {
-	var conn = new Client();
-	conn.on("ready", function () {
+  var conn = new Client();
+  conn.on('ready', function () {
     console.log('Client :: ready');
-		then(conn);
-	}).on('error', function (err) {
-		//console.log("connect error!");
-	}).on('end', function () {
-		//console.log("connect end!");
-	}).on('close', function (had_error) {
-		//console.log("connect close");
-	}).connect(server);
+    then(conn);
+  }).on('error', function () {
+    // console.log("connect error!");
+  }).on('end', function () {
+    // console.log("connect end!");
+  }).on('close', function () {
+    // console.log("connect close");
+  }).connect(server);
 }
 
 /**
@@ -54,12 +54,14 @@ function Connect (server, then) {
  * @param {string} cmd - 执行的命令
  * @param {function} then - 回调函数
  */
-function Shell(server, cmd, then){
-	Connect(server, function (conn) {
-		conn.shell(function (err, stream) {
-      if (err) throw err;
+function Shell (server, cmd, then) {
+  Connect(server, function (conn) {
+    conn.shell(function (err, stream) {
+      if (err) {
+        throw err;
+      }
       stream
-        .on('close', function() {
+        .on('close', function () {
           console.log('Stream :: close');
           then()
           conn.end();
@@ -67,12 +69,12 @@ function Shell(server, cmd, then){
         .on('data', function (data) {
           console.log('STDOUT: ' + data);
         })
-        .stderr.on('data', function(data) {
+        .stderr.on('data', function (data) {
           console.log('STDERR: ' + data);
         });
       stream.end(cmd);
-		});
-	});	
+    });
+  });
 }
 
 /**
@@ -83,19 +85,19 @@ function Shell(server, cmd, then){
  * @param {string} remotePath - 远程路径
  * @param {function(err, result)} then - 回调函数
  */
-function UploadFile(server, localPath, remotePath , then){
-	Connect(server, function(conn){
-		conn.sftp(function(err, sftp){
-			if(err){
-				then(err);
-			}else{
-				sftp.fastPut(localPath, remotePath, function(err, result){
-					conn.end();
-					then(err, result);
-				});
-			}
-		});
-	});
+function UploadFile (server, localPath, remotePath, then) {
+  Connect(server, function (conn) {
+    conn.sftp(function (err, sftp) {
+      if (err) {
+        then(err);
+      } else {
+        sftp.fastPut(localPath, remotePath, function (err, result) {
+          conn.end();
+          then(err, result);
+        });
+      }
+    });
+  });
 }
 
 // console.log('本地发布已关闭，请前往 Jenkins 发布')
@@ -105,12 +107,13 @@ function UploadFile(server, localPath, remotePath , then){
 * [1] 上传文件 [2] 跳转到静态文件根目录 [3] 删除static文件夹 [4] 解压 [5] 删除dist.zip [6] 登出
 * 回调：then(err, result)
 */
-UploadFile(config, './dist/dist.zip', ROOT + 'dist.zip', function (err, res) {
-  if (err) 
+UploadFile(config, './dist/dist.zip', ROOT + 'dist.zip', function (err) {
+  if (err) {
     console.log(err);
+  }
   console.log('Upload Finish!!')
   var sh = 'cd ' + ROOT + ' && rm -rf static/ && unzip -o dist.zip && rm -f dist.zip && logout\n'
-  Shell(config, sh, function (err, res) {
+  Shell(config, sh, function () {
     console.log('Public success!!')
   })
 })

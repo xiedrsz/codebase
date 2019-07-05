@@ -41,7 +41,7 @@ const charMapForVin = {
  * @return {Promise} Promise 对象.
  */
 export const sleep = s => {
-  return new Promise((resolve, reject) => {
+  return new Promise(resolve => {
     let timer = setTimeout(() => {
       clearTimeout(timer)
       resolve('promise resolved')
@@ -71,6 +71,7 @@ export const calcAge = identityNo => {
  * @param {Date} date - 时间
  * @param {string} fmt - 格式字符串
  * @return {string} 时间格式化字符串
+ * @todo 待认证
  */
 export const formatDate = (date, fmt) => {
   if (/(y+)/.test(fmt)) {
@@ -86,6 +87,7 @@ export const formatDate = (date, fmt) => {
   for (let k in o) {
     if (new RegExp(`(${k})`).test(fmt)) {
       let str = o[k] + ''
+      // eslint-disable-next-line no-undef
       fmt = fmt.replace(RegExp.$1, (RegExp.$1.length === 1) ? str : padLeftZero(str))
     }
   }
