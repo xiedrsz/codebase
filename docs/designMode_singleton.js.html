@@ -3,7 +3,7 @@
 <head>
     
     <meta charset="utf-8">
-    <title>AxiosPlugin.js - Docdash</title>
+    <title>designMode/singleton.js - Docdash</title>
     
     <meta name="description" content="A clean, responsive documentation template theme for JSDoc 3." />
     
@@ -45,7 +45,7 @@
 
 <div id="main">
     
-    <h1 class="page-title">AxiosPlugin.js</h1>
+    <h1 class="page-title">designMode/singleton.js</h1>
     
 
     
@@ -55,29 +55,62 @@
     
     <section>
         <article>
-            <pre class="prettyprint source linenums"><code>import axios from 'axios'
-
-/**
- * @module AxiosPlugin
- * @desc Vue axios 插件
- * @author xiedrsz
- * @since 2018.09.04
- * @example
- * // 用法：
- * import Vue from 'vue'
- * import AxiosPlugin from './AxiosPlugin'
- * Vue.use(AxiosPlugin)
+            <pre class="prettyprint source linenums"><code>/**
+ * 单例模式
  */
-export default {
-  install (Vue) {
-    Vue.prototype.$http = axios
-    Vue.http = axios
-  },
-  $http: axios
+
+// es5实现
+/**
+ * 构造函数
+ * @constructor Singleton 单例模式
+ * @param {string} name - 名字
+ */
+var Singleton = function (name) {
+  this.name = name
 }
 
-export const $http = axios
-</code></pre>
+/**
+ * [2] 原型方法
+ * @memberof Singleton
+ */
+Singleton.prototype.showName = function () {
+  console.log('My name is ' + this.name + '!')
+}
+
+Singleton.getInstance = (function () {
+  var instance;
+  return function (name) {
+    instance = instance || new Singleton(name)
+    return instance
+  }
+})();
+
+// 使用
+var a = Singleton.getInstance('A')
+var b = Singleton.getInstance('B')
+
+a === b
+// ==> true
+a.showName()
+// ===> My name is A!
+b.showName()
+// ===> My name is A!
+
+class SingletonES {
+  constructor (name) {
+    this,name = name
+  }
+  showName () {
+    console.log(`My name is ${this.name}`)
+  }
+  static getInstance = (function () {
+    let instance;
+    return function (name) {
+      instance = instance || new SingletonES(name)
+      return instance
+    }
+  })()
+}</code></pre>
         </article>
     </section>
 

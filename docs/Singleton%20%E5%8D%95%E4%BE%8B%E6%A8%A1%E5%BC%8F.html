@@ -3,7 +3,7 @@
 <head>
     
     <meta charset="utf-8">
-    <title>AxiosPlugin.js - Docdash</title>
+    <title>Singleton 单例模式 - Docdash</title>
     
     <meta name="description" content="A clean, responsive documentation template theme for JSDoc 3." />
     
@@ -45,41 +45,190 @@
 
 <div id="main">
     
-    <h1 class="page-title">AxiosPlugin.js</h1>
+    <h1 class="page-title">Singleton 单例模式</h1>
     
 
     
 
 
 
+
+<section>
+
+<header>
     
-    <section>
-        <article>
-            <pre class="prettyprint source linenums"><code>import axios from 'axios'
+        <h2>
+        Singleton 单例模式
+        </h2>
+        
+    
+</header>
 
-/**
- * @module AxiosPlugin
- * @desc Vue axios 插件
- * @author xiedrsz
- * @since 2018.09.04
- * @example
- * // 用法：
- * import Vue from 'vue'
- * import AxiosPlugin from './AxiosPlugin'
- * Vue.use(AxiosPlugin)
- */
-export default {
-  install (Vue) {
-    Vue.prototype.$http = axios
-    Vue.http = axios
-  },
-  $http: axios
-}
+<article>
+    
+        <div class="container-overview">
+        
+            
 
-export const $http = axios
-</code></pre>
-        </article>
-    </section>
+    
+
+    <h4 class="name" id="Singleton 单例模式"><span class="type-signature"></span>new Singleton 单例模式<span class="signature">(name)</span><span class="type-signature"></span></h4>
+
+    
+
+
+
+
+<dl class="details">
+
+    
+    <dt class="tag-source">Source:</dt>
+    <dd class="tag-source"><ul class="dummy"><li>
+        <a href="designMode_singleton.js.html">designMode/singleton.js</a>, <a href="designMode_singleton.js.html#line6">line 6</a>
+    </li></ul></dd>
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+</dl>
+
+
+
+
+
+<div class="description">
+    <p>构造函数</p>
+</div>
+
+
+
+
+
+
+
+
+
+
+
+    <h5>Parameters:</h5>
+    
+
+<table class="params">
+    <thead>
+    <tr>
+        
+        <th>Name</th>
+        
+
+        <th>Type</th>
+
+        
+
+        
+
+        <th class="last">Description</th>
+    </tr>
+    </thead>
+
+    <tbody>
+    
+
+        <tr>
+            
+                <td class="name"><code>name</code></td>
+            
+
+            <td class="type">
+            
+                
+<span class="param-type">string</span>
+
+
+            
+            </td>
+
+            
+
+            
+
+            <td class="description last"><p>名字</p></td>
+        </tr>
+
+    
+    </tbody>
+</table>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+        
+        </div>
+    
+
+    
+
+    
+
+    
+    
+    
+
+     
+
+    
+
+    
+
+    
+
+    
+
+    
+</article>
+
+</section>
 
 
 
