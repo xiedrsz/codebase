@@ -6,7 +6,7 @@ import wepy from 'wepy'
  * @author xiedrsz
  * @since 2018.09.04
  */
-export default class InnerAudio {
+class InnerAudio {
   // 构造函数
   constructor () {
     // 上下文
@@ -99,3 +99,5 @@ export default class InnerAudio {
     return this
   }
 }
+
+export default InnerAudio

@@ -18,7 +18,7 @@ const RecordOption = {
  * @author xiedrsz
  * @since 2018.09.04
  */
-export default class RecorderManager {
+class RecorderManager {
   // 构造函数
   constructor () {
     // 管理器
@@ -76,3 +76,5 @@ export default class RecorderManager {
     return this
   }
 }
+
+export default RecorderManager
