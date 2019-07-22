@@ -58,6 +58,20 @@
 
 <article>
     <hr>
+<ul>
+<li><h3 id="-">文本溢出显示省略号</h3>
+</li>
+</ul>
+<blockquote>
+<p>单行(未验证):</p>
+<pre class="prettyprint source lang-css"><code>overflow: hidden;
+text-overflow: ellipsis;
+white-space: nowrap;</code></pre><p>多行(未验证):</p>
+<pre class="prettyprint source lang-css"><code>overflow: hidden;
+text-overflow: ellipsis;
+display: -webkit-box;
+-webkit-line-clamp: 2;
+-webkit-box-orient: vertical;</code></pre></blockquote>
 </article>
 
 </section>
