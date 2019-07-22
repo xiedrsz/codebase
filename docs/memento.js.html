@@ -3,7 +3,7 @@
 <head>
     
     <meta charset="utf-8">
-    <title>axios-mock-adapter.js - Docdash</title>
+    <title>memento.js - Docdash</title>
     
     <meta name="description" content="A clean, responsive documentation template theme for JSDoc 3." />
     
@@ -45,7 +45,7 @@
 
 <div id="main">
     
-    <h1 class="page-title">axios-mock-adapter.js</h1>
+    <h1 class="page-title">memento.js</h1>
     
 
     
@@ -56,61 +56,60 @@
     <section>
         <article>
             <pre class="prettyprint source linenums"><code>/**
- * @module axios-mock-adapter
- * @desc axios mock 配置
+ * @class Memento
+ * @param {object} stateObj - 目标对象
+ * @desc 备忘录
  * @author xiedrsz
- * @since 2018.09.04
- * @example
- * // Apis.js
- * export default [
- *    'getUsers'
- * ]
- * // test.js
- * export default {
- *    getUsers: {
- *       path: '/users',
- *       method: 'GET',
- *       pattern: {
- *         'users|1-10': [{
- *             // 属性id是一个自增数，起始值为1，每次增1
- *             'id|+1': 1,
- *             'name': '@name'
- *         }]
- *       }
- *    }
- * }
+ * @since 2019.07.22
  */
-
-import axios from 'axios'
-import MockAdapter from 'axios-mock-adapter'
-import Mock from 'mockjs'
-
-import Apis from './Apis'
-import Test from './test'
-
-const mock = new MockAdapter(axios)
-const Responses = Object.assign({}, Test)
-const Meth = {
-  GET: 'onGet',
-  POST: 'onPost'
+class Memento {
+  constructor (stateObj = {}) {
+    Object.assign(this, stateObj)
+    this.__notebook = {}
+  }
+  /**
+   * @desc 备份
+   * @param {string} key - 键.
+   */
+  backup (key) {
+    if (!key) {
+      throw '请输入备份名'
+    }
+    if (this.__notebook[key]) {
+      throw '备份名已存在，请换个名字'
+    } else {
+      this.__notebook[key] = this.getState()
+    }
+  }
+  /**
+   * @desc 恢复
+   * @param {string} key - 键.
+   */
+  restore (key) {
+    let state = this.__notebook[key]
+    if (state) {
+      Object.assign(this, state)
+      delete this.__notebook[key]
+    }
+  }
+  /**
+   * @desc 清空备份
+   */
+  clear () {
+    this.__notebook = {}
+  }
+  /**
+   * @desc 获取当前状态
+   * @return {object} state
+   */
+  getState () {
+    let state = Object.assign({}, this)
+    delete state.__notebook
+    return state
+  }
 }
 
-Apis.forEach(name => {
-  let item = Responses[name] || {}
-  let path = item.path
-  let method = item.method
-  let pattern = item.pattern
-  /* eslint no-cond-assign: "off" */
-  if (method = Meth[method]) {
-    mock[method](path).reply(() => {
-      let res = Mock.mock(pattern)
-      return [200, res]
-    })
-  }
-})
-
-// 通过没有配置的
-mock.onAny().passThrough()
+export default Memento
 </code></pre>
         </article>
     </section>
