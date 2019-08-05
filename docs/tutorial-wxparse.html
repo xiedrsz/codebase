@@ -3,7 +3,7 @@
 <head>
     
     <meta charset="utf-8">
-    <title>Tutorial: css代码库 - Docdash</title>
+    <title>Tutorial: 小程序富文本解析组件 - Docdash</title>
     
     <meta name="description" content="A clean, responsive documentation template theme for JSDoc 3." />
     
@@ -45,7 +45,7 @@
 
 <div id="main">
     
-    <h1 class="page-title">Tutorial: css代码库</h1>
+    <h1 class="page-title">Tutorial: 小程序富文本解析组件</h1>
     
 
     <section>
@@ -53,25 +53,111 @@
 <header>
     
 
-    <h2>css代码库</h2>
+    <h2>小程序富文本解析组件</h2>
 </header>
 
 <article>
     <hr>
 <ul>
-<li><h3 id="-">文本溢出显示省略号</h3>
+<li><h4 id="wxparse-html-markdown-">wxParse - 微信小程序富文本解析自定义组件, 支持HTML及markdown解析</h4>
 </li>
 </ul>
-<blockquote>
-<p>单行(未验证):</p>
-<pre class="prettyprint source lang-css"><code>overflow: hidden;
-text-overflow: ellipsis;
-white-space: nowrap;</code></pre><p>多行(未验证):</p>
-<pre class="prettyprint source lang-css"><code>overflow: hidden;
-text-overflow: ellipsis;
-display: -webkit-box;
--webkit-line-clamp: 2;
--webkit-box-orient: vertical;</code></pre></blockquote>
+<h2 id="github">Github</h2>
+<p><a href="https://github.com/icindy/wxParse.git">点我</a>查看</p>
+<h2 id="-">特性</h2>
+<table>
+<thead>
+<tr>
+<th>支持特性</th>
+<th>实验功能</th>
+<th>ToDo</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>HTML的大部分标签解析</td>
+<td>小表情emjio</td>
+<td>table标签</td>
+</tr>
+<tr>
+<td>内联style</td>
+<td>a标签跳转</td>
+<td></td>
+</tr>
+<tr>
+<td>标签Class</td>
+<td>动态添加</td>
+<td></td>
+</tr>
+<tr>
+<td>图片自适应规则</td>
+<td></td>
+<td></td>
+</tr>
+<tr>
+<td>图片多图片预览</td>
+<td></td>
+<td></td>
+</tr>
+<tr>
+<td>模版层级可扩展性</td>
+<td></td>
+<td></td>
+</tr>
+<tr>
+<td>多数据循环方式</td>
+<td></td>
+<td></td>
+</tr>
+<tr>
+<td>内联style</td>
+<td></td>
+</tr>
+</tbody>
+</table>
+<h2 id="-">基本使用方法</h2>
+<ul>
+<li><ol>
+<li>Copy文件夹<code>wxParse</code><pre class="prettyprint source"><code>|- wxParse/
+ |- wxParse.js(必须存在)
+ |- html2json.js(必须存在)
+ |- htmlparser.js(必须存在)
+ |- showdown.js(必须存在)
+ |- wxDiscode.js(必须存在)
+ |- wxParse.wxml(必须存在)
+ |- wxParse.wxss(必须存在)
+ |- emojis(可选)</code></pre></li>
+</ol>
+</li>
+<li><ol start="2">
+<li><p>引入必要文件</p>
+<pre class="prettyprint source lang-js"><code>// 在使用的View中引入WxParse模块
+var WxParse = require('../../wxParse/wxParse.js');</code></pre><pre class="prettyprint source lang-css"><code>/** 在使用的Wxss中引入WxParse.css,可以在app.wxss */
+@import &quot;/wxParse/wxParse.wxss&quot;;</code></pre></li>
+</ol>
+</li>
+<li><ol start="3">
+<li>数据绑定<pre class="prettyprint source lang-js"><code>var article = '&lt;div>我是HTML代码&lt;/div>';
+var that = this;
+/**
+ * WxParse.wxParse(bindName , type, data, target,imagePadding)
+ * 1.bindName绑定的数据名(必填)
+ * 2.type可以为html或者md(必填)
+ * 3.data为传入的具体数据(必填)
+ * 4.target为Page对象,一般为this(必填)
+ * 5.imagePadding为当图片自适应是左右的单一padding(默认为0,可选)
+ */
+WxParse.wxParse('article', 'html', article, that, 5);</code></pre></li>
+</ol>
+</li>
+<li><ol start="4">
+<li>模版引用<pre class="prettyprint source lang-html"><code>&lt;!-- 引入模板 -->
+&lt;import src=&quot;你的路径/wxParse/wxParse.wxml&quot;/>
+&lt;!-- 这里data中article为bindName -->
+&lt;template is=&quot;wxParse&quot; data=&quot;{{wxParseData:article.nodes}}&quot;/></code></pre></li>
+</ol>
+</li>
+</ul>
 </article>
 
 </section>
