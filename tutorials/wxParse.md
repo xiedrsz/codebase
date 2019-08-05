@@ -3,14 +3,14 @@
 
 ## Github
 
-[点我](https://github.com/icindy/wxParse.git)查看
+[点我](https://github.com/icindy/wxParse.git) 查看
 
 ## 特性
 
 | 支持特性        | 实验功能           | ToDo  |
 | ------------- | ------------------| ------|
 | HTML的大部分标签解析 |  小表情emjio |  table标签 |
-| 内联style          |  a标签跳转   |            |
+| 内联style          |  a标签跳转   |         |
 | 标签Class          |  动态添加    |            |
 | 图片自适应规则       |            |            |
 | 图片多图片预览       |            |            |
