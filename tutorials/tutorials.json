@@ -87,5 +87,11 @@
   },
   "wxParse": {
     "title": "小程序富文本解析组件"
+  },
+  "interview": {
+    "title": "面试"
+  },
+  "resource": {
+    "title": "资源"
   }
 }

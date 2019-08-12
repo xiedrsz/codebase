@@ -3,7 +3,7 @@
 <head>
     
     <meta charset="utf-8">
-    <title>Tutorial: 工厂模式 - Docdash</title>
+    <title>Tutorial: 资源 - Docdash</title>
     
     <meta name="description" content="A clean, responsive documentation template theme for JSDoc 3." />
     
@@ -45,7 +45,7 @@
 
 <div id="main">
     
-    <h1 class="page-title">Tutorial: 工厂模式</h1>
+    <h1 class="page-title">Tutorial: 资源</h1>
     
 
     <section>
@@ -53,97 +53,19 @@
 <header>
     
 
-    <h2>工厂模式</h2>
+    <h2>资源</h2>
 </header>
 
 <article>
     <hr>
-<p>在工厂模式中，我们在创建对象时不会对客户端暴露创建逻辑，并且是通过使用一个共同的接口来指向新创建的对象。</p>
 <ul>
-<li>主要解决：主要解决接口选择的问题。</li>
-<li>何时使用：我们明确地计划不同条件下创建不同实例时。</li>
+<li><a href="https://lodash.com/"><strong>lodash</strong></a>: 目前较流行的 JavaScript 实用工具库</li>
+<li><a href="https://babeljs.io/"><strong>babel</strong></a>: JavaScript 编译器</li>
+<li><a href="https://requirejs.org/"><strong>RequireJS</strong></a>: JavaScript 模块加载器</li>
+<li><a href="http://mockjs.com/"><strong>Mock.js</strong></a>: 生成随机数据，拦截 Ajax 请求</li>
+<li><a href="https://webpack.js.org/"><strong>webpack</strong></a>: 现代化前端打包工具</li>
+<li><a href="https://cn.vuejs.org/"><strong>vuejs</strong></a>: 渐进式 JavaScript 框架</li>
 </ul>
-<pre class="prettyprint source lang-js"><code>// 工厂模式
-// es6 实现
-class Shape {
-  constructor (name) {
-    console.log(`I am ${name}`)
-  }
-  showArea () {
-    console.log('I don\'t know how to calculate the area!')
-  }
-}
-
-class Circle extends Shape {
-  constructor () {
-    super('Circle')
-  }
-  showArea () {
-    console.log('My area is Pi * r * r')
-  }
-}
-
-class Square extends Shape {
-  constructor () {
-    super('Square')
-  }
-  showArea () {
-    console.log('My area is a * a')
-  }
-}
-
-function factory (type) {
-  if (type === 'Circle') {
-    return new Circle()
-  } else if (type === 'Square') {
-    return new Square()
-  } else {
-    return new Shape(type)
-  }
-}
-
-let a = factory('Circle')
-let b = factory('Square')
-let c = factory('Triangle')
-a.showArea()
-b.showArea()
-c.showArea()</code></pre><pre class="prettyprint source lang-js"><code>// es5实现
-function ShapeA (name) {
-  console.log('I am ' + name)
-}
-ShapeA.prototype.showArea = function () {
-  console.log('I don\'t know how to calculate the area!')
-}
-
-function CircleA () {}
-CircleA.prototype = new ShapeA('CircleA')
-CircleA.prototype.showArea = function () {
-  console.log('My area is Pi * r * r')
-}
-
-function SquareA () {}
-SquareA.prototype = new ShapeA('SquareA')
-SquareA.prototype.showArea = function () {
-  console.log('My area is a * a')
-}
-
-function factoryA (type) {
-  if (type === 'Circle') {
-    return new CircleA()
-  } else if (type === 'Square') {
-    return new SquareA()
-  } else {
-    return new ShapeA(type)
-  }
-}
-
-var e = factoryA('Circle')
-var f = factoryA('Square')
-var g = factoryA('Triangle')
-e.showArea()
-f.showArea()
-g.showArea()
-</code></pre>
 </article>
 
 </section>
