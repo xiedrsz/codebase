@@ -191,3 +191,23 @@ export const checkVin = (vin = '') => {
     return vin[8] === check
   }
 }
+
+/**
+ * @method downloadFile 下载
+ * @desc 浏览器端生成文件并下载
+ * @param {string} [filename = '下载'] 文件名
+ * @param {string} [content = ''] 文件内容
+ */
+export const downloadFile = (filename = '下载', content = '') => {
+  let uriContent = `data:application/octet-stream,${encodeURIComponent(content)}`
+  let link = document.createElement('a')
+
+  link.download = filename
+  link.href = uriContent
+  link.target = '_blank'
+
+  document.body.appendChild(link)
+  link.click()
+  document.body.removeChild(link)
+  link.remove()
+}
