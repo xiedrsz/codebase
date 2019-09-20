@@ -5,6 +5,8 @@
  * @since 2018.09.04
  */
 import moment from 'moment'
+import Vue from 'vue'
+import underscore2camelCase from './camel'
 
 const Today = moment()
 
@@ -210,4 +212,100 @@ export const downloadFile = (filename = '下载', content = '') => {
   link.click()
   document.body.removeChild(link)
   link.remove()
+}
+
+let index = 0
+/**
+ * @method createComp 创建组件
+ * @desc 动态创建 Vue 组件
+ * @param {object} cmpData data属性
+ * @param {object} cmpCompents 引用的组件
+ * @param {object} nodeTree Dom树
+ * @return {string} 组件名
+ */
+export const createComp = (cmpData, cmpCompents, nodeTree) => {
+  let name = `vvv${index}`
+  Vue.component(name, {
+    data () {
+      return {
+        ...cmpData
+      }
+    },
+    render (h) {
+      return createRender(h, nodeTree)
+    },
+    components: {
+      ...cmpCompents
+    }
+  })
+  index += 1
+  return name
+}
+
+/**
+ * @method createRender 创建DOM树
+ * @desc 为动态创建 Vue 组件函数服务，生成DOM树
+ * @param {function} h createElement函数
+ * @param {string|object|function} node HTML标签名、组件选项对象
+ * @param {object} options 组件属性配置项
+ * @return {array} 子级虚拟节点
+ */
+export const createRender = (h, {node, options, childs}) => {
+  // let type = toString.call(childs)
+  childs = childs.map(child => {
+    return toString.call(child) === '[object Object]' ? createRender(h, child) : child
+  })
+  return h(node, options, childs)
+}
+
+/**
+ * @method Style2String style对象转字符串
+ * @desc 将style对象转成字符串
+ * @param {object} [obj = {}] style对象
+ * @return {string} style字符串
+ */
+export const Style2String = (obj = {}) => {
+  return Object.keys(obj).map(key => {
+    let prop = underscore2camelCase.decamelize(key, {
+      separator: '-'
+    })
+    let value = obj[key]
+    return `${prop}:${value}`
+  }).join(';')
+}
+
+/**
+ * @method style2Object style字符串转对象
+ * @desc 将style字符串转成对象形式
+ * @param {string} [str = ''] style字符串
+ * @return {object} style对象
+ */
+export const style2Object = (str = '') => {
+  let result = {}
+  str.split(';').map(item => {
+    return item.split(':')
+  }).forEach(([key, value]) => {
+    result[key] = value
+  })
+  result = underscore2camelCase.camelizeKeys(result, {
+    separator: '-'
+  })
+  return result
+}
+
+/**
+ * @method queryNode 查找子节点
+ * @desc 根据位置查找子节点
+ * @param {object} nodeTree 节点树
+ * @param {string} pos 位置
+ * @return {object} 子节点
+ */
+export const queryNode = (nodeTree, pos) => {
+  let posArg = pos.split('.')
+  let i = 1
+  let len = posArg.length
+  for (; i < len; i++) {
+    nodeTree = nodeTree.childs[posArg[i]]
+  }
+  return nodeTree
 }
