@@ -154,3 +154,17 @@ Vue.filter('thousands', (value, num = 0) => {
   let reg = num ? /(\d)(?=(?:(\d{3})+\.\d+$))/g : /(\d)(?=(?:\d{3})+$)/g
   return res.replace(reg, '$1,')
 })
+
+/**
+ * @method toFixed 保留小数点
+ * @desc 保留小数点
+ * @Param {number} [num = 0] 小数点位数
+ * @return {string}
+ */
+Vue.filter('toFixed', (value, num = 0) => {
+  if (value !== '' && value !== null && !isNaN(+value)) {
+    return (+value).toFixed(num)
+  } else {
+    return value
+  }
+})
