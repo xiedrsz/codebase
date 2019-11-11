@@ -35,6 +35,7 @@
     "Promise": true,
     "wx": true,
     "require": true,
+    "Uint8Array": true
   },
   "env": {
     "browser": true

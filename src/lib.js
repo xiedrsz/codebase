@@ -312,3 +312,58 @@ export const queryNode = (nodeTree, pos) => {
   }
   return nodeTree
 }
+
+/**
+ * @method rotateImage 旋转图片
+ * @desc 旋转图片
+ * @param {image} image 待旋转图片
+ * @param {number} width 图片宽度
+ * @param {number} height 图片高度
+ * @return {string} base64
+ */
+export const rotateImage = (image, width, height) => {
+  let canvas = document.createElement('canvas')
+  let ctx = canvas.getContext('2d')
+  ctx.save()
+  canvas.width = height
+  canvas.height = width
+  ctx.rotate(-90 * Math.PI / 180)
+  ctx.drawImage(image, -width, 0)
+  ctx.restore()
+  return canvas.toDataURL('image/png')
+}
+
+/**
+ * @method dataURLtoFile 将 dataurl 转成文件（图片）
+ * @desc 将 dataurl 转成文件（图片）
+ * @param {string} dataurl dataurl
+ * @param {string} filename 文件名
+ * @return {file} 文件
+ */
+export const dataURLtoFile = (dataurl, filename) => {
+  const arr = dataurl.split(',')
+  const mime = arr[0].match(/:(.*?);/)[1]
+  const bstr = atob(arr[1])
+  let n = bstr.length
+  let u8arr = new Uint8Array(n)
+  while (n--) {
+    u8arr[n] = bstr.charCodeAt(n)
+  }
+  return new File([u8arr], filename, {type: mime})
+}
+
+/**
+ * @method urlToImg 将 url 转成图片
+ * @desc 将 url 转成图片
+ * @param {string} url 图片地址
+ * @return {promise} Promise
+ */
+export const urlToImg = url => {
+  let img = new Image()
+  img.src = url
+  return new Promise(resolve => {
+    img.onload = () => {
+      resolve(img)
+    }
+  })
+}
