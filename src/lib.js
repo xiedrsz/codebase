@@ -282,6 +282,9 @@ export const Style2String = (obj = {}) => {
  */
 export const style2Object = (str = '') => {
   let result = {}
+  if (!str) {
+    return result
+  }
   str.split(';').map(item => {
     return item.split(':')
   }).forEach(([key, value]) => {
