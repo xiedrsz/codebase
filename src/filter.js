@@ -6,6 +6,7 @@
  */
 import Vue from 'vue'
 import moment from 'moment'
+import _ from 'lodash'
 
 /**
  * @method suffix 前后缀
@@ -167,4 +168,19 @@ Vue.filter('toFixed', (value, num = 0) => {
   } else {
     return value
   }
+})
+
+/**
+ * @method mapDict 匹配字典
+ * @desc 匹配字典
+ * @Param {array} dictionaries 字典集合
+ * @Param {string} [key = code] 编码字段
+ * @Param {string} [name = name] 名称字段
+ * @return {string}
+ */
+Vue.filter('mapDict', (value, dictionaries, key = 'code', name = 'name') => {
+  let item = _.find(dictionaries, {
+    [key]: value
+  }) || {}
+  return item[name] || value
 })
