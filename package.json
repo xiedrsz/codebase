@@ -21,7 +21,7 @@
   },
   "homepage": "https://github.com/xiedrsz/codebase#readme",
   "dependencies": {
-    "jsdoc": "^3.5.5"
+    "jsdoc": "^3.6.11"
   },
   "devDependencies": {
     "docdash": "^1.1.0",
